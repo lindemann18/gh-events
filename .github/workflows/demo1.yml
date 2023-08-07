@@ -1,5 +1,6 @@
 name: Events actions
-on: #[push, workflow_dispatch] # define the event that should trigger this event to run. Workflow dispatch makes sure we can manually trigger this workflow
+#[push, workflow_dispatch] # define the event that should trigger this event to run. Workflow dispatch makes sure we can manually trigger this workflow
+on:
   pull_request:
     types: [opened, edited]
   workflow_dispatch:
