@@ -1,9 +1,24 @@
 name: Events actions
 #[push, workflow_dispatch] # define the event that should trigger this event to run. Workflow dispatch makes sure we can manually trigger this workflow
 on:
+  #event filters
+  # the difference between one * anbd ** is that the double asterix allows for more slashes
   pull_request:
     types: [opened, edited]
+    branches: # these filters are for the branch that is targeted for a pull request
+      - main
+      - dev
+      - 'dev-*' # dev-new dev-this-is-new
+      - 'feat/**' # feat/new feate/new/button
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - dev
+      - 'dev-*' # dev-new dev-this-is-new
+      - 'feat/**' # feat/new feate/new/button
+    #paths: this allows you to say that you want to run a worflow if there's a push in a specific folder
+    #paths-ignore:  - '-github/workflows/*'
 jobs:
   deploy:
     runs-on: ubuntu-latest

@@ -1,0 +1,40 @@
+name: Deploy website
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    types: [opened, edited]
+    branches: # these filters are for the branch that is targeted for a pull request
+      - main
+      - dev
+      - 'dev-*' # dev-new dev-this-is-new
+      - 'feat/**' # feat/new feate/new/button
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies, lint and testing
+        run: |
+          npm ci
+          npm run lint
+          npm run test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies and buil
+        run: |
+          npm ci
+          npm run build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "Deploying..."
