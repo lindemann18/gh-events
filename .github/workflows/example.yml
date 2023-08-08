@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-report
-          path: report.json
+          path: test.json
   build:
     needs: test
     runs-on: ubuntu-latest
