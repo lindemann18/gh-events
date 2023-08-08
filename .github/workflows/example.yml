@@ -69,6 +69,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: get build artifacts
         uses: actions/download-artifact@v3
@@ -80,6 +81,9 @@ jobs:
         run: echo "${{needs.build.outputs.script-file}}"
       - name: Deploy
         run: echo "Deploying..."
+  deploy-reuse:
+    needs: build
+    uses: ./.github/workflows/reusable.yml
   report:
     if: failure()
     needs: [test, build, deploy]
