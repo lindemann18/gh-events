@@ -84,6 +84,8 @@ jobs:
   deploy-reuse:
     needs: build
     uses: ./.github/workflows/reusable.yml
+    with:
+      artifact-name: dist-files
   report:
     if: failure()
     needs: [test, build, deploy]
