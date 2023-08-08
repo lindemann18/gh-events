@@ -28,12 +28,16 @@ jobs:
           npm ci
           npm run lint
           npm run test
+      - uses: check-run-reporter/action@v2.12.0
+        if: ${{ always() }}
+        with:
+          report: report.json
       - name: upload test reports
         if: failure() && steps.run-tests.outcome == 'failure' #${{  }}
         uses: actions/upload-artifact@v3
         with:
           name: test-report
-          path: '${{ github.workspace }}.json'
+          path: report.json
   build:
     needs: test
     runs-on: ubuntu-latest
