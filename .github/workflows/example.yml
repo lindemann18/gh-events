@@ -18,14 +18,17 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Cache dependencies
+        id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules #~/.npm
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies, lint and testing
+      - name: install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: lint and testing
         id: run-tests
         run: |
-          npm ci
           npm run lint
           npm run test
       - name: upload test reports
@@ -43,14 +46,16 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Cache dependencies
+        id: cache
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
       - name: build
-        run: |
-          npm ci
-          npm run build
+        run: npm run build
       - name: Publish JS file Name
         id: publish
         run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
