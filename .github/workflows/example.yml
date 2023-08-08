@@ -29,12 +29,11 @@ jobs:
           npm run lint
           npm run test
       - name: upload test reports
-        working-directory: robot/tests
         if: failure() && steps.run-tests.outcome == 'failure' #${{  }}
         uses: actions/upload-artifact@v3
         with:
           name: test-report
-          path: test.json
+          path: reports/test.json
   build:
     needs: test
     runs-on: ubuntu-latest
