@@ -23,18 +23,17 @@ jobs:
           path: ~/.npm
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies, lint and testing
+        id: run-tests
         run: |
           npm ci
           npm run lint
-      - name: test
-        run: npm run test
-        id: run-tests
+          npm run test
       - name: upload test reports
         if: failure() && steps.run-tests.outcome == 'failure' #${{  }}
         uses: actions/upload-artifact@v3
         with:
           name: test-report
-          path: test.json
+          path: '${{ github.workspace }}.json'
   build:
     needs: test
     runs-on: ubuntu-latest
