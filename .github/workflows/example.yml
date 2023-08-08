@@ -14,9 +14,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -36,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-report
-          path: test.json
+          path: reports/test.json
   build:
     needs: test
     runs-on: ubuntu-latest
