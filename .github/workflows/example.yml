@@ -92,8 +92,8 @@ jobs:
     needs: deploy-reuse
     runs-on: ubuntu-latest
     steps:
-      -name: print deploy output
-      run: echo "${{needs.deploy-reuse.outputs.result}}"
+      - name: print deploy output
+        run: echo "${{needs.deploy-reuse.outputs.result}}"
   report:
     if: failure()
     needs: [test, build, deploy]
